@@ -25,7 +25,7 @@ bool notByFour(int i)
 }
 
 int main() {
-    /*list_t original = list_make();
+    list_t original = list_make();
     list_t rotated = list_make();
     list_t testlist;
 
@@ -43,6 +43,6 @@ int main() {
     bool results  = ListEqual(testlist, rotated);
 
   list_print(rotated);
-  list_print(testlist);*/
+  list_print(testlist);
 
 }
