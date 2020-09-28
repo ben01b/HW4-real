@@ -31,7 +31,7 @@ int product(list_t list)
     return head_val * sum(list_rest(list));
 }
 
-list_t reverse(list_t list);
+list_t reverse(list_t list)
 {
   int head_val = list_first(list);
 
