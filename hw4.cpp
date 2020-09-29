@@ -81,7 +81,8 @@ list_t reverse(list_t list)
 /*
 * Pseudocode
 * if rest of first list is not null
-* return append on rest of first list and list_make on first of first and second
+* return append on rest of first list and 
+* list_make on first of first and second
 */
 list_t append(list_t first, list_t second)
 {
@@ -171,15 +172,24 @@ list_t filter(list_t list, bool (*fn)(int))
     return filter(list_rest(list), fn);
 }
 
+/*
+* Pseudocode
+* if n > 0
+* rotate on list make on list rest, n-1 + append 
+* list_first
+*/
 list_t rotate(list_t list, unsigned int n)
 {
   if(n > 0)
   {
-
-    rotate(list, n);
+    rotate(list_rest(list), n - 1);
   }
 }
 
+/*
+* Pseudocode
+* 
+*/
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
   
