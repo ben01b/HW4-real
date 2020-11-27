@@ -21,7 +21,7 @@ int accumulate(list_t l, int (*fn)(int, int), int base)
 */
 int sum(list_t list)
 { 
-  if (list == NULL)
+  if (list == NULL || list_isEmpty(list))
     return 0;
   
   int head_val = list_first(list);
@@ -42,15 +42,15 @@ int sum(list_t list)
 */
 int product(list_t list)
 { 
-  if (list == NULL)
-    return 0;
+  if (list == NULL || list_isEmpty(list))
+    return 1;
 
   int head_val = list_first(list);
 
-  if(list_rest(list) != NULL)
-    return head_val * sum(list_rest(list));
+  if(list_rest(list))
+    return head_val * product(list_rest(list));
   else
-    return 0;
+    return 1;
 }
 
 /*
@@ -64,18 +64,19 @@ int product(list_t list)
 */
 list_t reverse(list_t list)
 {
-  if(list == NULL)
+  if(list_isEmpty(list))
     return list;
-  if(list_rest(list) == NULL)
+
+  int item = list_first(list);
+  list_t remainder = list_rest(list);
+
+  if(list_isEmpty(remainder))
     return list;
-  
-  int head_val = list_first(list);
-  
-  
-
-  reverse(list_rest(list));
-
-
+  else {
+    list_t empty = list_make();
+    list_t item_list = list_make(item, empty);
+    return append(reverse(remainder), item_list);
+  }
 }
 
 /*
@@ -84,10 +85,25 @@ list_t reverse(list_t list)
 * return append on rest of first list and 
 * list_make on first of first and second
 */
-list_t append(list_t first, list_t second)
+list_t append(list_t list_one, list_t list_two)
 {
-  if(list_rest(first) != NULL)
-    return append(list_rest(first), list_make(list_first(first), second));
+  int first_item = list_first(list_one);
+  list_t remainder = list_rest(list_one);
+  if (!list_isEmpty(remainder)){
+    list_two = append(remainder, list_two);
+  }
+ 
+  return list_make(first_item, list_two); 
+}
+
+/*
+* Pseudocide
+* adds item to the end of list
+*/
+list_t add(list_t list, int item)
+{
+  list_t empty = list_make();
+  return append(list, list_make(item, empty));
 }
 
 /*
@@ -104,24 +120,16 @@ list_t append(list_t first, list_t second)
 */
 list_t filter_odd(list_t list)
 {
-  int last_odd = 0;
+  if(list_isEmpty(list))
+      return list; 
 
-  if(list_rest(list) == NULL)
-    return list;
-  
-  if(list_first(list) % 2 == 0)
-  {  
-    if(last_odd == 0)
-      filter_odd(list_make(last_odd, list_rest(list)));
-    else
-    {
-      last_odd = list_first(list);
-      filter_odd(list_rest(list));
-    }
-    return list;
-  }    
-      
-    
+    int first_item = list_first(list);
+    list_t odd_list = filter_odd(list_rest(list)); 
+
+    if(first_item % 2 != 0)
+      odd_list = list_make(first_item, odd_list);   
+
+    return odd_list;
 }
 
 /*
@@ -138,22 +146,16 @@ list_t filter_odd(list_t list)
 */
 list_t filter_even(list_t list)
 {
-  int last_even = 0;
+  if(list_isEmpty(list))
+      return list; 
 
-  if(list_rest(list) == NULL)
-    return list;
-  
-  if(list_first(list) % 2 != 0)
-  {  
-    if(last_even == 0)
-      filter_even(list_make(last_even, list_rest(list)));
-    else
-    {
-      last_even = list_first(list);
-      filter_even(list_rest(list));
-    }
-    return list;
-  }    
+    int first_item = list_first(list);
+    list_t even_list = filter_even(list_rest(list)); 
+
+    if(first_item % 2 == 0)
+      even_list = list_make(first_item, even_list);   
+
+    return even_list;
 }
 
 /*
@@ -165,11 +167,16 @@ list_t filter_even(list_t list)
 */
 list_t filter(list_t list, bool (*fn)(int))
 {
+  if(list_isEmpty(list))
+      return list; 
 
-  if(fn(list_first(list) == false))
-    return filter(list_make(list_first(list_rest(list)), list_rest(list_rest(list))), fn);
-  else
-    return filter(list_rest(list), fn);
+    int first_item = list_first(list);
+    list_t filtered_list = filter_even(list_rest(list)); 
+
+    if(fn(first_item) == true)
+      filtered_list = list_make(first_item, filtered_list);   
+
+    return filtered_list;
 }
 
 /*
@@ -182,8 +189,10 @@ list_t rotate(list_t list, unsigned int n)
 {
   if(n > 0)
   {
-    rotate(list_rest(list), n - 1);
+    return rotate(add(list_rest(list), list_first(list)), n-1);
   }
+  else
+    return list;
 }
 
 /*
@@ -192,12 +201,31 @@ list_t rotate(list_t list, unsigned int n)
 */
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
-  
+  list_t a = chop(reverse(first), 2);
+  list_t b = reverse(second);
+  list_t c = get_chop_remains(reverse(first), 2);
+  return reverse(append(append(a, b), c));
+}
+
+list_t get_chop_remains(list_t list, int n)
+{
+  if(n > -1)
+    list = get_chop_remains(list_rest(list), n-1);
+  return list;
 }
 
 list_t chop(list_t l, unsigned int n)
 {
+  return chop_helper(l, n, n);
+}
 
+list_t chop_helper(list_t l, unsigned int n, int n_count)
+{
+  if(n_count == n)
+    l = reverse(l);
+  if(n_count > 0)
+    l = chop_helper(list_rest(l), n, n_count-1);
+  return reverse(l);
 }
 
 /*

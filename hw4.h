@@ -5,18 +5,21 @@
 
 int sum(list_t list);
     /* 
+    //done
     // EFFECTS: returns the sum of each element in list
     //          zero if the list is empty.
     */ 
 
 int product(list_t list);
     /* 
+    //done
     // EFFECTS: returns the product of each element in list
     //          one if the list is empty.
     */
 
 int accumulate(list_t list, int (*fn)(int, int), int identity);
     /*
+    //done
     // REQUIRES: fn must be associative.
     // EFFECTS: return identity if list is empty
     //          return fn(list_first(list), 
@@ -37,6 +40,7 @@ int accumulate(list_t list, int (*fn)(int, int), int identity);
 
 list_t reverse(list_t list);
     /*
+    //done
     // EFFECTS: returns the reverse of list
     //
     // For example: the reverse of ( 3 2 1 ) is ( 1 2 3 )
@@ -44,11 +48,18 @@ list_t reverse(list_t list);
 
 list_t append(list_t first, list_t second);
     /*
+    //done
     // EFFECTS: returns the list (first second)
     */ 
 
+list_t add(list_t list, int item);
+    /*
+    // EFFECTS: appends int to the end of list
+    */
+
 list_t filter_odd(list_t list);
     /*
+    //done
     // EFFECTS: returns a new list containing only the elements of the
     //          original list which are odd in value, 
     //          in the order in which they appeared in list.
@@ -59,6 +70,7 @@ list_t filter_odd(list_t list);
 
 list_t filter_even(list_t list);
     /*
+    //done
     // EFFECTS: returns a new list containing only the elements of the
     //          original list which are even in value, 
     //          in the order in which they appeared in list.
@@ -69,6 +81,7 @@ list_t filter_even(list_t list);
 
 list_t filter(list_t list, bool (*fn)(int));
     /*
+    //done
     // EFFECTS: returns a list containing precisely the elements of list
     //          for which the predicate fn() evaluates to true, in the
     //          order in which  they appeared in list.
@@ -76,6 +89,7 @@ list_t filter(list_t list, bool (*fn)(int));
 
 list_t rotate(list_t list, unsigned int n);
     /*
+    //done
     // EFFECTS: returns a list equal to the original list with the 
     //          first element moved to the end of the list n times.
     //
@@ -99,6 +113,10 @@ list_t chop(list_t l, unsigned int n);
     // EFFECTS: returns the list equal to l without its last n
     //          elements
     */
+
+list_t get_chop_remains(list_t list, int n);
+
+list_t chop_helper(list_t l, unsigned int n, int n_count);
 
 int fib(int n);
     /*
