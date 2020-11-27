@@ -2,7 +2,11 @@
 #include "hw4.h"
 #include <iostream>
 
-int accumulate(list_t l, int (*fn)(int, int), int base)
+list_t get_chop_remains(list_t list, int n);
+list_t chop_helper(list_t l, unsigned int n, int n_count);
+
+int accumulate(list_t l, int (*fn)(int, int), 
+int base)
 {
   if (list_isEmpty(l)) {
     return base;

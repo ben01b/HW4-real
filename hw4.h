@@ -114,10 +114,6 @@ list_t chop(list_t l, unsigned int n);
     //          elements
     */
 
-list_t get_chop_remains(list_t list, int n);
-
-list_t chop_helper(list_t l, unsigned int n, int n_count);
-
 int fib(int n);
     /*
     // REQUIRES: n >= 0

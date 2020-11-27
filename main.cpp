@@ -87,12 +87,6 @@ int main() {
   list_print(chopped);
   std::cout << std::endl;
 
-  std::cout << "Getting chop remains from: ";
-  list_print(test_chop_remains);
-  std::cout << std::endl;
-  list_t chop_remains = get_chop_remains(test_chop_remains, 2);
-  list_print(chop_remains);
-
   std::cout << std::endl << "Inserting: ";
   list_print(test_insert2);
   std::cout << std::endl << "into: ";
