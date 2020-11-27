@@ -207,7 +207,7 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
 {
   list_t a = chop(reverse(first), 2);
   list_t b = reverse(second);
-  list_t c = get_chop_remains(reverse(first), 2);
+  list_t c = chop(reverse(first), 2);
   return reverse(append(append(a, b), c));
 }
 
