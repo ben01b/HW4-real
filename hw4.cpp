@@ -2,8 +2,8 @@
 #include "hw4.h"
 #include <iostream>
 
-list_t get_chop_remains(list_t list, int n);
-list_t chop_helper(list_t l, unsigned int n, int n_count);
+/*list_t get_chop_remains(list_t list, int n);
+list_t chop_helper(list_t l, unsigned int n, int n_count);*/
 
 int accumulate(list_t l, int (*fn)(int, int), 
 int base)
@@ -211,26 +211,48 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
   return reverse(append(append(a, b), c));
 }
 
-list_t get_chop_remains(list_t list, int n)
+/*list_t get_chop_remains(list_t list, int n)
 {
   if(n > -1)
     list = get_chop_remains(list_rest(list), n-1);
   return list;
-}
+}*/
 
 list_t chop(list_t l, unsigned int n)
 {
-  return chop_helper(l, n, n);
+  list_print(l);
+  std::cout << std::endl;
+  if (list_isEmpty(l)){
+    return l;  
+  } else {
+    int x = list_first(l);
+   
+    // RECURESE
+    list_t chopped = chop(list_rest(l), n+1);
+    // RECURSE
+std::cout << "test2" << std::endl;
+    // If n is greater
+    // than zero, there are more items to 
+    // chop. If n == 0 begin building chop list
+    if (n > 0){
+      n = n-1;
+      std::cout << "N: " << n << std::endl;
+      return l;
+    } else {
+      std::cout << "test4" << std::endl;
+      return list_make(x, chopped); 
+    }
+  } 
 }
 
-list_t chop_helper(list_t l, unsigned int n, int n_count)
+/*list_t chop_helper(list_t l, unsigned int n, int n_count)
 {
   if(n_count == n)
     l = reverse(l);
   if(n_count > 0)
     l = chop_helper(list_rest(l), n, n_count-1);
   return reverse(l);
-}
+}*/
 
 /*
 * Pseudocode
