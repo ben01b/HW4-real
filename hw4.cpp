@@ -2,9 +2,6 @@
 #include "hw4.h"
 #include <iostream>
 
-/*list_t get_chop_remains(list_t list, int n);
-list_t chop_helper(list_t l, unsigned int n, int n_count);*/
-
 int accumulate(list_t l, int (*fn)(int, int), 
 int base)
 {
@@ -210,17 +207,17 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
 {
   list_t a = chop(reverse(first), 2);
   list_t b = reverse(second);
-  list_t c = list_make();
-  //list_t c = get_chop_remains(reverse(first), 2);
+  //list_t c = list_make();
+  list_t c = get_chop_remains(reverse(first), 2);
   return reverse(append(append(a, b), c));
 }
 
-/*list_t get_chop_remains(list_t list, int n)
+list_t get_chop_remains(list_t list, int n)
 {
   if(n > -1)
     list = get_chop_remains(list_rest(list), n-1);
   return list;
-}*/
+}
 
 list_t chop(list_t l, unsigned int n)
 {
@@ -233,15 +230,6 @@ list_t chop(list_t l, unsigned int n)
   }
   return l;
 }
-
-/*list_t chop_helper(list_t l, unsigned int n, int n_count)
-{
-  if(n_count == n)
-    l = reverse(l);
-  if(n_count > 0)
-    l = chop_helper(list_rest(l), n, n_count-1);
-  return reverse(l);
-}*/
 
 /*
 * Pseudocode
