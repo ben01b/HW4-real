@@ -91,12 +91,15 @@ list_t reverse(list_t list)
 */
 list_t append(list_t list_one, list_t list_two)
 {
+  if(list_isEmpty(list_one))
+    return list_two;
+  if(list_isEmpty(list_two))
+    return list_one;
   int first_item = list_first(list_one);
   list_t remainder = list_rest(list_one);
   if (!list_isEmpty(remainder)){
     list_two = append(remainder, list_two);
   }
- 
   return list_make(first_item, list_two); 
 }
 
@@ -208,7 +211,7 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
   list_t a = chop(reverse(first), 2);
   list_t b = reverse(second);
   list_t c = list_make();
-  //list_t c = chop(reverse(first), 2);
+  //list_t c = get_chop_remains(reverse(first), 2);
   return reverse(append(append(a, b), c));
 }
 
@@ -218,28 +221,6 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
     list = get_chop_remains(list_rest(list), n-1);
   return list;
 }*/
-
-list_t chop1(list_t l, unsigned int n)
-{
-  if (list_isEmpty(l)){
-    return l;  
-  } else {
-    int x = list_first(l);
-    
-    // RECURESE
-    list_t chopped = chop(list_rest(l), n+1);
-    // RECURSE
-    // If n is greater
-    // than zero, there are more items to 
-    // chop. If n == 0 begin building chop list
-    if (n > 0){
-      n = n-1;
-      return l;
-    } else {
-      return list_make(x, chopped); 
-    }
-  } 
-}
 
 list_t chop(list_t l, unsigned int n)
 {
