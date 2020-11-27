@@ -219,31 +219,38 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
   return list;
 }*/
 
-list_t chop(list_t l, unsigned int n)
+list_t chop1(list_t l, unsigned int n)
 {
-  list_print(l);
-  std::cout << std::endl;
   if (list_isEmpty(l)){
     return l;  
   } else {
     int x = list_first(l);
-   
+    
     // RECURESE
     list_t chopped = chop(list_rest(l), n+1);
     // RECURSE
-std::cout << "test2" << std::endl;
     // If n is greater
     // than zero, there are more items to 
     // chop. If n == 0 begin building chop list
     if (n > 0){
       n = n-1;
-      std::cout << "N: " << n << std::endl;
       return l;
     } else {
-      std::cout << "test4" << std::endl;
       return list_make(x, chopped); 
     }
   } 
+}
+
+list_t chop(list_t l, unsigned int n)
+{
+  if(n > 0)
+  {
+    l = reverse(l);
+    int item = list_first(l);
+    l = reverse(list_rest(l));
+    return chop(l, n-1);
+  }
+  return l;
 }
 
 /*list_t chop_helper(list_t l, unsigned int n, int n_count)
