@@ -201,7 +201,7 @@ list_t rotate(list_t list, unsigned int n)
 
 /*
 * Pseudocode
-* 
+* gg
 */
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
