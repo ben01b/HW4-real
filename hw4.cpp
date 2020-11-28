@@ -155,7 +155,10 @@ static list_t filterOddHelper(list_t list, list_t filtered_list)
 */
 list_t filter_odd(list_t list)
 {
-  return filterOddHelper(list, list_make());
+  if(list_isEmpty(list))
+    return list;
+  else
+    return filterOddHelper(list, list_make());
 
   /*if(list_isEmpty(list))
       return list; 
@@ -199,7 +202,10 @@ list_t filterEvenHelper(list_t list, list_t filtered_list)
 */
 list_t filter_even(list_t list)
 {
-  return filterEvenHelper(list, list_make());
+  if(list_isEmpty(list))
+    return list;
+  else
+    return filterEvenHelper(list, list_make());
 
   /*if(list_isEmpty(list))
       return list; 
