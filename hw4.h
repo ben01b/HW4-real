@@ -114,11 +114,6 @@ list_t chop(list_t l, unsigned int n);
     //          elements
     */
 
-list_t get_chop_remains(list_t list, int n);
-    /*
-    // EFFECTS: get remains of chop
-    */
-
 int fib(int n);
     /*
     // REQUIRES: n >= 0

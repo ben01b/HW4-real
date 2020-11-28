@@ -203,21 +203,49 @@ list_t rotate(list_t list, unsigned int n)
 * Pseudocode
 * gg
 */
+/*list_t insert_list(list_t first, list_t second, unsigned int n)
+{
+  if(n > -1)
+  {
+    list_t chop_remains = insert(first, second, n);
+  }
+
+  list_t a = chop(reverse(first), n);
+  list_t b = reverse(second);
+  list_t c = get_chop_remains();
+  //list_t c = list_make();
+  return reverse(append(append(a, b), c));
+}*/
+
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
-  list_t a = chop(reverse(first), 2);
-  list_t b = reverse(second);
-  //list_t c = list_make();
-  list_t c = get_chop_remains(reverse(first), 2);
-  return reverse(append(append(a, b), c));
+  // If second list is empty, just return
+  // the first list as there is no more to 
+  // to do
+  if (list_isEmpty(second)){
+    return first;
+  }
+
+ // If n > 0 then continue to pop items 
+ // off the first list. Otherwise, append
+ // second list to first 
+ if (n > 0){
+   int item_to_add = list_first(first);
+   list_t new_list = insert_list(list_rest(first), second, n-1);
+   return list_make(item_to_add, new_list);
+ } else {
+   int item_to_add = list_first(second);
+   list_t new_list = insert_list(first, list_rest(second), 0);
+   return list_make(item_to_add, new_list);
+ }  
 }
 
-list_t get_chop_remains(list_t list, int n)
+/*list_t get_chop_remains(list_t list, int n)
 {
   if(n > -1)
     list = get_chop_remains(list_rest(list), n-1);
   return list;
-}
+}*/
 
 list_t chop(list_t l, unsigned int n)
 {
