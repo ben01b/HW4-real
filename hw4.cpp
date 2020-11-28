@@ -244,16 +244,14 @@ list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list)
 */
 list_t filter(list_t list, bool (*fn)(int))
 {
-  if(list_isEmpty(list))
-      return list; 
-
-    int first_item = list_first(list);
+  return filterHelper(list, fn, list_make());
+    /*int first_item = list_first(list);
     list_t filtered_list = filter_even(list_rest(list)); 
 
     if(fn(first_item) == true)
       filtered_list = list_make(first_item, filtered_list);   
 
-    return filtered_list;
+    return filtered_list;*/
 }
 
 /*
