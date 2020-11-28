@@ -35,7 +35,12 @@ int main() {
   list_t test_chop_remains = list_make(5, test4);
   list_t test_product = list_make(3, test2);
   list_t test_insert1 = test_chop_remains;
-  list_t test_insert2 = test3;
+
+
+  list_t one = list_make(9, list_make());
+  list_t two = list_make(10, one);
+  list_t three = list_make(11, two);
+  list_t test_insert2 = three;
   list_print(test3);
   std::cout << std::endl;
   if(list_isEmpty(test3))
@@ -43,9 +48,11 @@ int main() {
   else
     std::cout << "Test3 is not empty" << std::endl;
 
-  std::cout << "Sum: " << sum(test3) << std::endl;
-
-  std::cout << "Product: " << product(test_product) << std::endl;
+  int v =  sum(test3);
+  std::cout << "Sum value: " << v << std::endl;
+  
+  int k = product(test_product);
+  std::cout << "Product: " << k << std::endl;
 
   std::cout << "Reversing: ";
   list_print(test_product);

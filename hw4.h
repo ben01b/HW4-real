@@ -3,12 +3,16 @@
 
 #include "recursive.h"
 
+static int sumHelper(list_t list, int total);
+
 int sum(list_t list);
     /* 
     //done
     // EFFECTS: returns the sum of each element in list
     //          zero if the list is empty.
     */ 
+
+static int productHelper(list_t list, int total);
 
 int product(list_t list);
     /* 
@@ -52,10 +56,12 @@ list_t append(list_t first, list_t second);
     // EFFECTS: returns the list (first second)
     */ 
 
-list_t add(list_t list, int item);
+static list_t add(list_t list, int item);
     /*
     // EFFECTS: appends int to the end of list
     */
+
+static list_t filterOddHelper(list_t list, list_t filtered_list);
 
 list_t filter_odd(list_t list);
     /*
@@ -78,6 +84,8 @@ list_t filter_even(list_t list);
     // For example, if you applied filter_odd to the list ( 4 1 3 0 )
     // you would get the list ( 4 0 )
     */
+
+list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list);
 
 list_t filter(list_t list, bool (*fn)(int));
     /*

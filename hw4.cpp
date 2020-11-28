@@ -12,6 +12,15 @@ int base)
   }
 }
 
+static int sumHelper(list_t list, int total)
+{
+  if(list_isEmpty(list))
+    return total;
+  else{
+    return sumHelper(list_rest(list), list_first(list) + total);
+  }
+}
+
 /*
 * Pseudocode
 * if list is empty return 0
@@ -22,15 +31,20 @@ int base)
 */
 int sum(list_t list)
 { 
-  if (list == NULL || list_isEmpty(list))
-    return 0;
-  
-  int head_val = list_first(list);
-  
-  if(list_rest(list) != NULL)
-    return head_val + sum(list_rest(list));
+  return sumHelper(list, 0);
+}
+
+
+/*
+* Pseudocode
+* 
+*/
+static int productHelper(list_t list, int total)
+{
+  if(list_isEmpty(list))
+    return total;
   else
-    return 0;
+    return productHelper(list_rest(list), list_first(list) + total);
 }
 
 /*
@@ -43,15 +57,7 @@ int sum(list_t list)
 */
 int product(list_t list)
 { 
-  if (list == NULL || list_isEmpty(list))
-    return 1;
-
-  int head_val = list_first(list);
-
-  if(list_rest(list))
-    return head_val * product(list_rest(list));
-  else
-    return 1;
+  return productHelper(list, 0);
 }
 
 /*
@@ -82,32 +88,55 @@ list_t reverse(list_t list)
 
 /*
 * Pseudocode
+* 
+*/
+static list_t append_helper(list_t list_two, list_t list_one, int last_item)
+{
+  if (list_isEmpty(list_one))
+    return list_make(last_item, list_two);
+  else
+    return list_make(last_item, append_helper(list_two, list_rest(list_one), list_first(list_one)));
+}
+
+/*
+* Pseudocode
 * if rest of first list is not null
 * return append on rest of first list and 
 * list_make on first of first and second
 */
 list_t append(list_t list_one, list_t list_two)
 {
-  if(list_isEmpty(list_one))
-    return list_two;
-  if(list_isEmpty(list_two))
+  if (list_isEmpty(list_two))
     return list_one;
-  int first_item = list_first(list_one);
-  list_t remainder = list_rest(list_one);
-  if (!list_isEmpty(remainder)){
-    list_two = append(remainder, list_two);
-  }
-  return list_make(first_item, list_two); 
+  else
+    return append_helper(list_two, list_rest(list_one), list_first(list_one));
 }
+
 
 /*
 * Pseudocide
 * adds item to the end of list
 */
-list_t add(list_t list, int item)
+static list_t add(list_t list, int item)
 {
   list_t empty = list_make();
   return append(list, list_make(item, empty));
+}
+
+/*
+* Pseudocode
+* 
+*/
+static list_t filterOddHelper(list_t list, list_t filtered_list)
+{
+  if(list_isEmpty(list))
+    return filtered_list;
+  else
+  {
+    if(list_first(list) % 2 != 0)
+      filtered_list = list_make(list_first(list), filtered_list);
+    return filterOddHelper(list_rest(list), filtered_list);
+  }
 }
 
 /*
@@ -124,7 +153,9 @@ list_t add(list_t list, int item)
 */
 list_t filter_odd(list_t list)
 {
-  if(list_isEmpty(list))
+  return filterOddHelper(list, list_make());
+
+  /*if(list_isEmpty(list))
       return list; 
 
     int first_item = list_first(list);
@@ -133,7 +164,23 @@ list_t filter_odd(list_t list)
     if(first_item % 2 != 0)
       odd_list = list_make(first_item, odd_list);   
 
-    return odd_list;
+    return odd_list;*/
+}
+
+/*
+* Pseudocode
+* 
+*/
+list_t filterEvenHelper(list_t list, list_t filtered_list)
+{
+  if(list_isEmpty(list))
+    return filtered_list;
+  else
+  {
+    if(list_first(list) % 2 == 0)
+      filtered_list = list_make(list_first(list), filtered_list);
+    return filterEvenHelper(list_rest(list), filtered_list);
+  }
 }
 
 /*
@@ -150,7 +197,9 @@ list_t filter_odd(list_t list)
 */
 list_t filter_even(list_t list)
 {
-  if(list_isEmpty(list))
+  return filterEvenHelper(list, list_make());
+
+  /*if(list_isEmpty(list))
       return list; 
 
     int first_item = list_first(list);
@@ -159,7 +208,23 @@ list_t filter_even(list_t list)
     if(first_item % 2 == 0)
       even_list = list_make(first_item, even_list);   
 
-    return even_list;
+    return even_list;*/
+}
+
+/*
+* Pseudocode
+* 
+*/
+list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list)
+{
+  if(list_isEmpty(list))
+    return filtered_list;
+  else
+  {
+    if(fn(list_first(list)) == true)
+      filtered_list = list_make(list_first(list), filtered_list);
+    return filterHelper(list_rest(list), fn, filtered_list);
+  }
 }
 
 /*
@@ -191,72 +256,55 @@ list_t filter(list_t list, bool (*fn)(int))
 */
 list_t rotate(list_t list, unsigned int n)
 {
-  if(n > 0)
-  {
-    return rotate(add(list_rest(list), list_first(list)), n-1);
-  }
-  else
+  if(n == 0)
     return list;
+  else
+    return rotate(add(list_rest(list), list_first(list)), n-1);
+}
+
+
+list_t insertListHeleper(list_t first, list_t second, unsigned int n, int last_item)
+{
+  if(n == 0 && list_isEmpty(second))
+    return list_make(last_item, first);
+  else if(n == 0 && !list_isEmpty(second))
+    return list_make(last_item, insertListHeleper(first, list_rest(second), n, list_first(second)));
+  else
+  {
+     return list_make(last_item, insertListHeleper(list_rest(first), second, n-1, list_first(first)));
+  }
 }
 
 /*
 * Pseudocode
-* gg
+* 
 */
-/*list_t insert_list(list_t first, list_t second, unsigned int n)
-{
-  if(n > -1)
-  {
-    list_t chop_remains = insert(first, second, n);
-  }
-
-  list_t a = chop(reverse(first), n);
-  list_t b = reverse(second);
-  list_t c = get_chop_remains();
-  //list_t c = list_make();
-  return reverse(append(append(a, b), c));
-}*/
-
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
-  // If second list is empty, just return
-  // the first list as there is no more to 
-  // to do
-  if (list_isEmpty(second)){
+  if (list_isEmpty(second))
     return first;
+  else if(list_isEmpty(first))
+    return second;
+
+  if(n == 0 && !list_isEmpty(second))
+  {
+    return insertListHeleper(first, list_rest(second), n, list_first(second));
   }
-
- // If n > 0 then continue to pop items 
- // off the first list. Otherwise, append
- // second list to first 
- if (n > 0){
-   int item_to_add = list_first(first);
-   list_t new_list = insert_list(list_rest(first), second, n-1);
-   return list_make(item_to_add, new_list);
- } else {
-   int item_to_add = list_first(second);
-   list_t new_list = insert_list(first, list_rest(second), 0);
-   return list_make(item_to_add, new_list);
- }  
+  else
+     return insertListHeleper(list_rest(first), second, n-1, list_first(first));
 }
-
-/*list_t get_chop_remains(list_t list, int n)
-{
-  if(n > -1)
-    list = get_chop_remains(list_rest(list), n-1);
-  return list;
-}*/
 
 list_t chop(list_t l, unsigned int n)
 {
-  if(n > 0)
+  if(n == 0)
+    return l;
+  else
   {
     l = reverse(l);
     int item = list_first(l);
     l = reverse(list_rest(l));
     return chop(l, n-1);
   }
-  return l;
 }
 
 /*
@@ -278,5 +326,5 @@ int fib_tail(int n)
 {
   if (n <= 1) 
     return n; 
-  return fib(n-1) + fib(n-2); 
+  return fib(n-1) + fib(n-2);
 }
