@@ -108,6 +108,8 @@ list_t append(list_t list_one, list_t list_two)
 {
   if (list_isEmpty(list_two))
     return list_one;
+  else if(list_isEmpty(list_one))
+    return list_two;
   else
     return append_helper(list_two, list_rest(list_one), list_first(list_one));
 }
