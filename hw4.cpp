@@ -136,22 +136,14 @@ static list_t filterOddHelper(list_t list, list_t filtered_list)
   else
   {
     if(list_first(list) % 2 != 0)
-      filtered_list = list_make(list_first(list), filtered_list);
+      filtered_list = add(filtered_list, list_first(list));
     return filterOddHelper(list_rest(list), filtered_list);
   }
 }
 
 /*
 * Pseudocode
-* if rest == null
-* return list
-* if first % 2 == 0
-* filter_odd on new list with last odd and list 
-* rest
-* else
-* set last_odd to list first
-* filter_odd on list rest
-* return list
+* 
 */
 list_t filter_odd(list_t list)
 {
@@ -183,7 +175,7 @@ list_t filterEvenHelper(list_t list, list_t filtered_list)
   else
   {
     if(list_first(list) % 2 == 0)
-      filtered_list = list_make(list_first(list), filtered_list);
+      filtered_list = add(filtered_list, list_first(list));
     return filterEvenHelper(list_rest(list), filtered_list);
   }
 }
