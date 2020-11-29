@@ -222,7 +222,7 @@ list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list)
   else
   {
     if(fn(list_first(list)) == true)
-      filtered_list = list_make(list_first(list), filtered_list);
+      filtered_list = add(filtered_list, list_first(list));
     return filterHelper(list_rest(list), fn, filtered_list);
   }
 }
