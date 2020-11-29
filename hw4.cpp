@@ -44,7 +44,7 @@ static int productHelper(list_t list, int total)
   if(list_isEmpty(list))
     return total;
   else
-    return productHelper(list_rest(list), list_first(list) + total);
+    return productHelper(list_rest(list), list_first(list) * total);
 }
 
 /*
@@ -57,7 +57,7 @@ static int productHelper(list_t list, int total)
 */
 int product(list_t list)
 { 
-  return productHelper(list, 0);
+  return productHelper(list, 1);
 }
 
 /*
