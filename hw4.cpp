@@ -12,6 +12,12 @@ int base)
   }
 }
 
+/*
+* Pseudocode
+* if list is empty return total
+* else retunr sumHelper on rest of list and 
+* total += total
+*/
 static int sumHelper(list_t list, int total)
 {
   if(list_isEmpty(list))
@@ -23,11 +29,7 @@ static int sumHelper(list_t list, int total)
 
 /*
 * Pseudocode
-* if list is empty return 0
-* get first value of list
-* if there is more in the list
-* return head value + sum of rest of list
-* if rest is null return 0
+* return sumHelper on list and 0
 */
 int sum(list_t list)
 { 
@@ -37,7 +39,9 @@ int sum(list_t list)
 
 /*
 * Pseudocode
-* 
+* if list is empty return total
+* else retunr productHelper on rest of list and 
+* total *= total
 */
 static int productHelper(list_t list, int total)
 {
@@ -49,11 +53,7 @@ static int productHelper(list_t list, int total)
 
 /*
 * Pseudocode
-* if list is empty return 0
-* get first value of list
-* if there is more in the list
-* return head value * product of rest of list
-* if rest is null return 0
+* return productHelper on list and 1
 */
 int product(list_t list)
 { 
@@ -62,12 +62,10 @@ int product(list_t list)
 
 /*
 * Pseudocode
-* if list is null return list
-* if rest is null return list
-* get first value of list
-* 
-* 
-* 
+* if list is empty return list
+* if remainder is empty return list
+* else return append(reverse(remainder), item 
+* list)
 */
 list_t reverse(list_t list)
 {
@@ -88,7 +86,10 @@ list_t reverse(list_t list)
 
 /*
 * Pseudocode
-* 
+* if list one is empty create list with last 
+* item and list two
+* else make list with last item and append 
+* helper on rest of one
 */
 static list_t append_helper(list_t list_two, list_t list_one, int last_item)
 {
@@ -100,9 +101,10 @@ static list_t append_helper(list_t list_two, list_t list_one, int last_item)
 
 /*
 * Pseudocode
-* if rest of first list is not null
-* return append on rest of first list and 
-* list_make on first of first and second
+* if list two empty return list one
+* else if list one empty return list two
+* else turn append helper(list_two, rest
+* (list_one), first(list_one))
 */
 list_t append(list_t list_one, list_t list_two)
 {
@@ -116,8 +118,9 @@ list_t append(list_t list_one, list_t list_two)
 
 
 /*
-* Pseudocide
-* adds item to the end of list
+* Pseudocode
+* create empty list append item + empty onto 
+* list
 */
 static list_t add(list_t list, int item)
 {
@@ -127,7 +130,11 @@ static list_t add(list_t list, int item)
 
 /*
 * Pseudocode
-* 
+* if list empty return filtered list
+* else if first is odd
+* add first to end of filtered list
+* return filteroddhelper(rest(list), filtered 
+* list)
 */
 static list_t filterOddHelper(list_t list, list_t filtered_list)
 {
@@ -143,7 +150,9 @@ static list_t filterOddHelper(list_t list, list_t filtered_list)
 
 /*
 * Pseudocode
-* 
+* if list is empty return list
+* else return filteroddhelper(list, empty 
+* list)
 */
 list_t filter_odd(list_t list)
 {
@@ -151,22 +160,15 @@ list_t filter_odd(list_t list)
     return list;
   else
     return filterOddHelper(list, list_make());
-
-  /*if(list_isEmpty(list))
-      return list; 
-
-    int first_item = list_first(list);
-    list_t odd_list = filter_odd(list_rest(list)); 
-
-    if(first_item % 2 != 0)
-      odd_list = list_make(first_item, odd_list);   
-
-    return odd_list;*/
 }
 
 /*
 * Pseudocode
-* 
+* if list empty return filtered list
+* else if first is even
+* add first to end of filtered list
+* return filterevenhelper(rest(list), 
+* filtered list)
 */
 list_t filterEvenHelper(list_t list, list_t filtered_list)
 {
@@ -182,15 +184,9 @@ list_t filterEvenHelper(list_t list, list_t filtered_list)
 
 /*
 * Pseudocode
-* if rest == null
-* return list
-* if first % 2 == 0
-* filter_odd on new list with last odd and list 
-* rest
-* else
-* set last_odd to list first
-* filter_odd on list rest
-* return list
+* if list is empty return list
+* else return filterevenhelper(list, empty 
+* list)
 */
 list_t filter_even(list_t list)
 {
@@ -198,22 +194,15 @@ list_t filter_even(list_t list)
     return list;
   else
     return filterEvenHelper(list, list_make());
-
-  /*if(list_isEmpty(list))
-      return list; 
-
-    int first_item = list_first(list);
-    list_t even_list = filter_even(list_rest(list)); 
-
-    if(first_item % 2 == 0)
-      even_list = list_make(first_item, even_list);   
-
-    return even_list;*/
 }
 
 /*
 * Pseudocode
-* 
+* if list empty return filtered list
+* else if fn(first) == true
+* add first to end of filtered list
+* return filterevenhelper(rest(list), 
+* filtered list)
 */
 list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list)
 {
@@ -229,10 +218,9 @@ list_t filterHelper(list_t list, bool (*fn)(int), list_t filtered_list)
 
 /*
 * Pseudocode
-* if fn(list_first) is false
-* return filter on new list with first element of 
-* rest and rest of rest
-* else return filter on list rest
+* if list is empty return list
+* else return filterhelper(list, empty 
+* list)
 */
 list_t filter(list_t list, bool (*fn)(int))
 {
@@ -248,9 +236,9 @@ list_t filter(list_t list, bool (*fn)(int))
 
 /*
 * Pseudocode
-* if n > 0
-* rotate on list make on list rest, n-1 + append 
-* list_first
+* if n is 0 return list
+* else return rotate on rest of list with 
+* first at end and n-1
 */
 list_t rotate(list_t list, unsigned int n)
 {
@@ -260,7 +248,14 @@ list_t rotate(list_t list, unsigned int n)
     return rotate(add(list_rest(list), list_first(list)), n-1);
 }
 
-
+/*
+* Pseudocode
+* if n is 0 and second list is empty
+* return list make (last item, first)
+* else if n is 0 and second is not empty
+* return list make(last item, isertlisthelper
+* (first, rest(second), n, first(second)))
+*/
 list_t insertListHeleper(list_t first, list_t second, unsigned int n, int last_item)
 {
   if(n == 0 && list_isEmpty(second))
@@ -275,7 +270,13 @@ list_t insertListHeleper(list_t first, list_t second, unsigned int n, int last_i
 
 /*
 * Pseudocode
-* 
+* if second is empty return first
+* if first is empty return second
+* if n is 0 and second is not empty
+* return insertlisthelepr(first, rest(second),
+* n, first(second))
+* else return insertlistheleper(rest(first), 
+* second, n-1, first(first))
 */
 list_t insert_list(list_t first, list_t second, unsigned int n)
 {
@@ -292,6 +293,13 @@ list_t insert_list(list_t first, list_t second, unsigned int n)
      return insertListHeleper(list_rest(first), second, n-1, list_first(first));
 }
 
+/*
+* Pseudocode
+* if n is 0 return l
+* else
+* reverse rest of l
+* return chop(l, n-1)
+*/
 list_t chop(list_t l, unsigned int n)
 {
   if(n == 0)
@@ -307,22 +315,28 @@ list_t chop(list_t l, unsigned int n)
 
 /*
 * Pseudocode
-* returns fib_tail(n)
+* if n is 1 or 0
+* return 1
+* else return fib(n-1)+fib(n-2)
 */
 int fib(int n)
 {
-  return fib_tail(n);
+  if((n == 1)||(n == 0))
+      return(1);
+   else
+      return(fib(n-1)+fib(n-2));
 }
 
 /*
 * Pseudocode
-* if n <= 1
+* if n is 0 or 1
 * return n
-* return fib(n-1) + fib(n-2)
+* else return fib(n-1)+fib(n-2)
 */
 int fib_tail(int n)
 {
-  if (n <= 1) 
-    return n; 
-  return fib(n-1) + fib(n-2);
+  if((n == 1)||(n == 0))
+      return(n);
+   else
+      return(fib(n-1)+fib(n-2));
 }
